@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Our game from IGK 2013
+title: Game from IGK 2013
 date: 2013-04-16 21:52:59
 ---
 Last weekend(5-7 April) I have been on game development conference IGK in Siedlce. It was 10th anniversary of the conference, so even that I had to take morning flight, and then another one to be back at work on Monday morning, it was worth it.
