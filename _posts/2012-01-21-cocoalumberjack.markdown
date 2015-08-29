@@ -1,6 +1,6 @@
 ---
 layout: post
-title: CocoaLumberjack
+title: "iOS logger: CocoaLumberjack"
 date: 2012-01-21 01:21:47
 ---
 ![img](/assets/images.jpg)
