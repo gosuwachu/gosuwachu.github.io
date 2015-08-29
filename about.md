@@ -4,8 +4,10 @@ title: About
 permalink: /about/
 ---
 
-This is the base Jekyll theme. You can find out more info about customizing your Jekyll theme, as well as basic Jekyll usage documentation at [jekyllrb.com](http://jekyllrb.com/)
-
-You can find the source code for the Jekyll new theme at: [github.com/jglovier/jekyll-new](https://github.com/jglovier/jekyll-new)
-
-You can find the source code for Jekyll at [github.com/jekyll/jekyll](https://github.com/jekyll/jekyll)
+<p><span style="line-height: 1.5;">You can contact me at:<br />
+wach[dot]piotrek@gmail[dot]com</span></p>
+<p>You can also find me on:<br />
+<a title="Linkedin" href="http://pl.linkedin.com/pub/piotr-wach/19/1a7/813">LinkedIn<br />
+</a><a title="Stackoverflow" href="http://stackoverflow.com/users/351748/piotr-wach">Stackoverflow<br />
+</a><a title="GitHub" href="https://github.com/gosuwachu">GitHub<br />
+</a><a title="Bitbucket" href="https://bitbucket.org/gosuwachu">Bitbucket</a></p>

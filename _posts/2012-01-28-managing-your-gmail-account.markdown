@@ -1,41 +1,10 @@
 ---
 layout: post
 title: Managing your GMail account
-date: 2012-01-28 15:20:51.000000000 +00:00
-categories:
-- Blog
-tags:
-- gmail
-- gtd
-status: publish
-type: post
-published: true
-meta:
-  _layout: inherit
-  bluth_custom_thumbnail: a:2:{s:11:"gallery_src";s:98:"http://localhost:8080/wp-content/uploads/2012/01/how-to-find-anything-in-your-gmail-a7ee226b41.jpg";s:10:"gallery_id";s:3:"842";}
-  bluth_post_layout: right_side
-  bluth_facebook_status: ''
-  bluth_twitter_status: ''
-  bluth_google_status: ''
-  blu_video_url: ''
-  blu_audio_url: ''
-  blu_link_url: ''
-  blu_quote_text: ''
-  blu_quote_author: ''
-  blu_quote_src: ''
-  blu_gallery: a:1:{i:0;a:2:{s:11:"gallery_src";s:0:"";s:10:"gallery_id";s:0:"";}}
-  wpb_post_views_count: '470'
-  _edit_last: '1'
-author:
-  login: admin
-  email: wach.piotrek@gmail.com
-  display_name: Piotr Wach
-  first_name: Piotr
-  last_name: Wach
-excerpt: !ruby/object:Hpricot::Doc
-  options: {}
+date: 2012-01-28 15:20:51
 ---
-<p><a href="http://blog.mobiledev.pl/wp-content/uploads/2012/01/images1.jpg"><img class="alignleft size-thumbnail wp-image-780" title="images" alt="" src="assets/images1-150x150.jpg" width="150" height="150" /></a>GMail is popular email service provided by Google. Whether it is your professional or private email, in both cases, your inbox can get filled with emails about different subjects, with some important more than others. Here I will tell you about few things that I have learnt about managing my inbox, and how to stay productive.</p>
+![img](http://blog.mobiledev.pl/wp-content/uploads/2012/01/images1.jpg)
+<p>GMail is popular email service provided by Google. Whether it is your professional or private email, in both cases, your inbox can get filled with emails about different subjects, with some important more than others. Here I will tell you about few things that I have learnt about managing my inbox, and how to stay productive.</p>
 <p><!--more--></p>
 <p><strong>Keep your inbox small</strong></p>
 <p>When I first started using GMail, I used to keep all my emails in inbox. I quickly figured, that sometimes when I get an email I should do something about it, like pay my bills. Keeping all the emails in inbox makes your life harder, as you don't know which of things you have already done, and which not. Solution to this problem is simple: if you have an email that requires some action from you, leave it in inbox until it is finished, after that just archive it. This way you can postpone tasks, and never forget about them. You will also know what have already been done.</p>

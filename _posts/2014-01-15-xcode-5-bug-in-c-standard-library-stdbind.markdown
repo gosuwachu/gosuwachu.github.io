@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Xcode 5: Bug in C++ standard library (std::bind)"
+title: "Bug in C++ standard library: std::bind"
 date: 2014-01-15 21:43:26
 categories: blog
 tags: bug c++ xcode
