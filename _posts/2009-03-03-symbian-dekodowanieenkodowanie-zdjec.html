@@ -1,0 +1,94 @@
+---
+layout: post
+title: 'Symbian: dekodowanie/enkodowanie zdjęć'
+date: 2009-03-03 15:00:53.000000000 +00:00
+categories:
+- Blog
+tags:
+- C\C++
+- gif
+- icl
+- jpg
+- Symbian
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  wpb_post_views_count: '226'
+author:
+  login: admin
+  email: wach.piotrek@gmail.com
+  display_name: Piotr Wach
+  first_name: Piotr
+  last_name: Wach
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>Biblioteka ICL(<a href="http://www.symbian.com/developer/techlib/v9.1docs/doc_source/reference/reference-cpp/n10286/index.html">Symbian OS v9.2 » Symbian OS reference » C++ component reference » Multimedia ICL</a>) umożliwia wczytywanie zdjęć w różnych formatach, między innymi gif, jpg. W dzisiejszej notce przedstawię jak napisać małą bibliotekę, która będzie umożliwiała wygodne operowanie na takich zdjęciach. Będą mnie interesowały operacje takie jak: dekodowanie, enkodowanie, skalowanie, dostęp do bitmapy przez CFbsBitmap, asynchroniczność.</p>
+<p>W tym celu stworzymy sobie klasę CDaemonImageProcessor(wzięta z mojego obecnego projektu, stąd taka nazwa):<br />
+<!-- HTML generated using hilite.me -->
+<div style="background: #f8f8f8; overflow:auto;width:auto;color:black;background:white;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
+<pre style="margin: 0; line-height: 125%"><span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">CDaemonImageProcessor</span> <span style="color: #666666">:</span> <span style="color: #008000; font-weight: bold">public</span> CActive
+{
+<span style="color: #008000; font-weight: bold">public</span><span style="color: #666666">:</span>
+	<span style="color: #008000; font-weight: bold">enum</span> TAction
+	{
+		EIdle,
+		ELoadAndDecodeImage,
+		ESaveAndEncodeImage,
+		EScale,
+		ERotate
+	};
+
+	<span style="color: #408080; font-style: italic">// ............</span>
+
+	<span style="color: #408080; font-style: italic">// loads and decodes image data, async</span>
+	TInt LoadAndDecodeImage(TInt aRequestId, <span style="color: #008000; font-weight: bold">const</span> TDesC<span style="color: #666666">&amp;</span> aFilePath);
+
+	<span style="color: #408080; font-style: italic">// loads, decodes image data and scale it, async</span>
+	TInt LoadAndDecodeImage(TInt aRequestId, <span style="color: #008000; font-weight: bold">const</span> TDesC<span style="color: #666666">&amp;</span> aFilePath, TSize aSize);
+
+	<span style="color: #408080; font-style: italic">// encodes bitmap and save its data to file, async</span>
+	TInt SaveAndEncodeImage(TInt aRequestId, CFbsBitmap<span style="color: #666666">*</span> aBitmap, <span style="color: #008000; font-weight: bold">const</span> TDesC<span style="color: #666666">&amp;</span> aFilePath, <span style="color: #008000; font-weight: bold">const</span> TDesC8<span style="color: #666666">&amp;</span> aMIMEType);
+
+	<span style="color: #408080; font-style: italic">// scale image, async</span>
+	TInt Scale(TInt aRequestId, CFbsBitmap<span style="color: #666666">*</span> aBitmap, TSize aSize, TBool aMaintainAspectRatio <span style="color: #666666">=</span> ETrue);
+
+	<span style="color: #408080; font-style: italic">// get bitmap</span>
+	CFbsBitmap<span style="color: #666666">*</span> GetBitmap();
+
+	<span style="color: #408080; font-style: italic">// ...............</span>
+
+	<span style="color: #008000; font-weight: bold">private</span><span style="color: #666666">:</span>
+	MImageProcessorObserver<span style="color: #666666">*</span> iObserver;
+	CFbsBitmap<span style="color: #666666">*</span> iBitmapPointer; <span style="color: #408080; font-style: italic">// image to work with, class do not own this object</span>
+
+	CImageDecoder<span style="color: #666666">*</span> iImageDecoder;
+	CImageEncoder<span style="color: #666666">*</span> iImageEncoder;
+	CBitmapScaler<span style="color: #666666">*</span> iScaler;
+
+	TAction iCurrentAction;
+	TInt iRequestId;
+
+};
+
+<span style="color: #008000; font-weight: bold">class</span> <span style="color: #0000FF; font-weight: bold">MImageProcessorObserver</span>
+{
+<span style="color: #008000; font-weight: bold">public</span><span style="color: #666666">:</span>
+	<span style="color: #008000; font-weight: bold">virtual</span> <span style="color: #B00040">void</span> NotifyCompletionL( CDaemonImageProcessor<span style="color: #666666">::</span>TAction aAction, TInt aRequestId, TInt aError ) <span style="color: #666666">=</span> <span style="color: #666666">0</span>;
+};
+</pre>
+</div>
+<p>Tak wygląda interfejs klasy którą piszemy. Przyjrzyjmy się jednej funkcji i wyjaśnijmy jej parametry: <em>LoadAndDecodeImage(TInt aRequestId, const TDesC&amp; aFilePath)</em></p>
+<ul>
+<li><strong> aRequestId</strong>: w aplikacji klienta korzystającej z naszej biblioteki, często będziemy korzystać w różnych miejscach z jej funkcjonalność, chcemy oszczędzić zmartwień użytkownikowi, który nie musi pamiętać jaką operację teraz wykonuje nasza klasa i jakiej ma się spodziewać w metodzie NotifyCompletionL. Parametr określa identyfikator operacji(może być dowolny ustalony przez użytkownika), np. <em>ELadujeMojeZdjecie, EZapisujeMojeZdjecie</em>, itp.</li>
+<li><strong>aFilePathL:</strong> ścieżka do pliku który chcemy dekodować</li>
+</ul>
+<p>Jak widać nasza biblioteka ma wszystkie potrzebne funkcje. Warto się w tym momencie jednak zastanowić jeszcze nad jedna której istnienie może wydawać się zbędne:  <em>LoadAndDecodeImage(TInt aRequestId, const TDesC&amp; aFilePath, TSize aSize)</em></p>
+<p>Różni się tylko od poprzedniej funkcji tylko dodatkowym parametrem aSize, który określa rozmiar jaki ma przyjąć zdjęcie po wczytaniu. Gdybyśmy mieli zdjęcie w rozmiarze 800x600, a w programie chcielibyśmy je w rozmiarze np. 400x300, to zrobilibyśmy tak:<br />
+1. najpierw wywołalibyśmy <em>LoadAndDecodeImage</em><br />
+2. <em>Scale</em> i załatwione.</p>
+<p>Czyżby? Dla takich rozmiarów być może, ale aparaty fotograficzne w dzisiejszych telefonach robią zdjęcia w rozdzielczości nawet 1600x1200, w jpg takie zdjęcie zajmuje całkiem mało ~800KB. Jednak po zdekodowaniu to będzie kilkadziesiąt MB! W pamięci  telefonu komórkowego?! ;) Nie ma szans. Całe szczęście zdjęcie da się przeskalować jeszcze na etapie ładowania do pamięci dzięki czemu: a. zdjęcie ładuje się szybciej, b. nie zapychamy całej pamięci.</p>
+<p>Poniżej załączam kod źródłowy kompletnej biblioteki. Gdybyście znaleźli jakieś błędy lub uważacie, że można w niej coś poprawić dajcie znać :)</p>
+<p>Download: <a href="http://blog.mobiledev.pl/wp-content/uploads/2009/03/daemonimageprocessor.rar">DaemonImageProcessor.rar</a></p>

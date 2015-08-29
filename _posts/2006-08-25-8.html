@@ -1,0 +1,53 @@
+---
+layout: post
+title: Obroty za pomocą liczb zespolonych
+date: 2006-08-25 18:17:00.000000000 +01:00
+categories:
+- Blog
+tags:
+- liczby zespolone
+- Matematyka
+- Programowanie grafiki
+status: publish
+type: post
+published: true
+meta:
+  blogger_blog: wachu-dev.blogspot.com
+  blogger_author: Piotr Wachhttp://www.blogger.com/profile/10690088603061072643noreply@blogger.com
+  blogger_permalink: "/2006/08/witam-ponownie-tak-jak-powiedzialem.html"
+  _edit_last: '1'
+  wpb_post_views_count: '448'
+author:
+  login: admin
+  email: wach.piotrek@gmail.com
+  display_name: Piotr Wach
+  first_name: Piotr
+  last_name: Wach
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>Za pomocą liczb zespolonych można w bardzo łatwy sposób przedstawić obrót punktu wokół osi o podany kat. Wikipedia mówi nawet ze liczby zespolone można traktować jak szczególny przypadek kwaternionów. Zbadałem trochę jak takie obroty miałyby wyglądać i oto rezultaty.</p>
+<p>Każda liczbę zespolona najczęściej przedstawia się w postaci: <em>z = a + ib</em>. Gdzie <em>ReZ = a, ImZ = b.</em></p>
+<p><a href="http://photos1.blogger.com/blogger/3974/3632/1600/complex.jpg" onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}"><img class="alignright" style="border: 0pt none; margin: 20px; display: block; text-align: center; cursor: pointer;" src="assets/complex.jpg" border="0" alt="" width="261" height="192" /></a></p>
+<p>Liczbe zespolona mozna przedstawic w postaci trygonometrycznej:</p>
+<ul>
+<li><em><span class="texhtml">z = | z | ( cos φ + isin φ )</span></em></li>
+</ul>
+<p>Mnożenie liczb zespolonych wyraża się wzorem (postać trygonometryczna):</p>
+<ul>
+<li><em><span class="texhtml">z1 * z2 = | z1 || z2 | ( cos (φ1 + </span><span class="texhtml">φ2</span><span class="texhtml">) + isin </span><span class="texhtml">(φ1 + </span><span class="texhtml">φ2</span><span class="texhtml">)</span><span class="texhtml"> )</span></em></li>
+</ul>
+<p><span class="texhtml">φ1, </span><span class="texhtml">φ2 - są to kolejno <em>Arg z1</em> i <em>Arg z2</em></span>.</p>
+<p>Teraz możemy przejść do liczenia obrotów. Jak widać ze wzoru na mnożenie liczb zespolonych w postaci trygonometrycznej jeśli moduł jednej z liczb jest równy 1 to wynikiem będzie "obrót punktu" o kat<em> </em><span class="texhtml"><em>φ</em>.</span></p>
+<p>Teraz pojawia się problem jak obrócić jakiś punkt znając tylko kat o jaki chcemy go obrócić i jego pozycje? Wystarczy odpowiednio przekształcić poniższe wzory:</p>
+<p><em>cos<span class="texhtml">φ = a / |z| </span><br />
+sin<span class="texhtml">φ = b / |z|</span></em></p>
+<p>Mamy wiec wszystkie dane do wzoru na mnożenie liczb zespolonych w postaci trygonometrycznej. Jest jednak jeszcze jeden sposób na pomnożenie dwóch liczb zespolonych, bardziej tradycyjny:</p>
+<p><em>(a, b) * (c, d) = (ac - bd, ad + bc)</em></p>
+<p>przekształcamy wzory:</p>
+<p><em>a = |z|cos<span class="texhtml">φ<br />
+</span><span class="texhtml">b = |z|sin</span><span class="texhtml">φ</span></em></p>
+<p>i podstawiamy z powrotem do wzoru na mnożenie:</p>
+<p><em><span class="texhtml">(a, b) * (</span><span class="texhtml">|z|cos</span><span class="texhtml">φ</span><span class="texhtml">, </span><span class="texhtml">|z|sin</span><span class="texhtml">φ</span><span class="texhtml">) = (a</span><span class="texhtml">|z|cos</span><span class="texhtml">φ</span><span class="texhtml"> - b</span><span class="texhtml">|z|sin</span><span class="texhtml">φ</span><span class="texhtml">,  a</span><span class="texhtml">|z|sin</span><span class="texhtml">φ</span><span class="texhtml"> + b</span><span class="texhtml">|z|cos</span><span class="texhtml">φ</span><span class="texhtml">)</span></em></p>
+<p>W ten sposób mamy gotowy wzór na obrót punktu wokół punktu (0, 0). Obrót wokół dowolnego punktu można zrobić przez przesunięcie punktu do (0, 0), obrót i ponowne przesuniecie.</p>
+<p>Największa zaleta? Pozbycie się macierzy z przestrzeni dwu wymiarowej, gdzie stosunek ich rozmiaru do zastosowania przechyla się za bardzo na ich nie korzyść (wystarczy popatrzeć na powyższe wzory i pomyśleć jak bardzo można je zoptymalizować).</p>

@@ -1,0 +1,38 @@
+---
+layout: post
+title: EUserHL
+date: 2009-06-04 16:40:57.000000000 +01:00
+categories:
+- Blog
+tags:
+- euserhl
+- Symbian
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  wpb_post_views_count: '426'
+author:
+  login: admin
+  email: wach.piotrek@gmail.com
+  display_name: Piotr Wach
+  first_name: Piotr
+  last_name: Wach
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>Witam, tak jak obiecałem w dzisiejszej notce będzie o niedawno wypuszczonej przez Symbiana bibliotece EUserHL. Co to jest i dlaczego warto tego używać? W skrócie jest to biblioteka ułatwiające operowanie deskryptorami i cleanup stackiem, a konkretnie:</p>
+<ul>
+<li>dodaje nowy typ deskryptora LString który dba o automatyczne przydzielanie i zwalnianie pamięci. Nie trzeba pamiętać o żadnym Create/Close jak w RBuf, czy NewL/delete w przypadku HBufC. Automatycznie również powiększa nam bufor jeśli np. string który próbujemy do niego skopiować jest za duży.</li>
+<li>dodaje klasy LCleanedupX i LManagedX które służą do automatycznego zarządzania cleanup stackiem. Nigdy więcej ręcznego wywoływania PopAndDestroy i błędu E32User-CBase 6* :-)</li>
+<li>oprócz tego dodano makra umożliwiające konstrukcję obiektów w jednym kroku (nie ma potrzeby tworzenia ConstructL() dla instrukcji które moga nam rzucić "wyjątek") oraz makro OR_LEAVE<em>, </em>które zamienia, np<em>. </em>
+<pre><em>iFs-&gt;Connect() OR_LEAVE; na User::LeaveIfError(iFs-&gt;Connect());</em></pre>
+</li>
+</ul>
+<p>Używałem już tej biblioteki w ostatnim projekcie i spisywała się całkiem nieźle. Posiada jednak mały minus, o  którego istnieniusię wiedzieć. Z aplikacją używającą EUserHL, trzeba dostarczyć też sis instalujący tą bibliotekę. Nie jest to wielki problem o ile w embedując takiego sisa do naszej aplikacji godzimy się z faktem pojawienia się dodatkowego pytania podczas instalacji. Całe szczęście tylko jednego komunikatu i tutaj czas zaznaczyć, że mam w to swój wkład :) Na forum Nokii zapoczątkowałem dyskusję nad błędem "Application not compatible with the phone. Continue?", który pojawiał się podczas instalacji tej biblioteki. Dzisiaj pojawiła się poprawiona wersja(1.2), która rozwiązuje ten problem.</p>
+<p><strong>Więcej w tym temacie:</strong></p>
+<p class="fnToggleHeadline"><a href="http://developer.symbian.com/main/documentation/symbian_cpp/symbian_cpp/LCL.jsp">EUserHL Core Idiom Library</a></p>
+<p>Tematy które założyłem na forum Nokii, dotyczące wyżej wspomnianego błędu.<br />
+<a href="http://developer.symbian.com/forum/thread.jspa?threadID=31571">http://developer.symbian.com/forum/thread.jspa?threadID=31571</a><br />
+<a href="http://discussion.forum.nokia.com/forum/showthread.php?t=168628">http://discussion.forum.nokia.com/forum/showthread.php?t=168628</a></p>

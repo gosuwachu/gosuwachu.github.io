@@ -1,0 +1,64 @@
+---
+layout: post
+title: 'Xcode 5: Bug in C++ standard library (std::bind)'
+date: 2014-01-15 21:43:26.000000000 +00:00
+categories:
+- Blog
+tags:
+- bug
+- c++
+- iOS
+- stl
+- xcode5
+status: publish
+type: post
+published: true
+meta:
+  wpb_post_views_count: '1312'
+  blu_gallery: a:1:{i:0;a:2:{s:11:"gallery_src";s:0:"";s:10:"gallery_id";s:0:"";}}
+  blu_quote_src: ''
+  blu_quote_author: ''
+  blu_quote_text: ''
+  blu_link_url: ''
+  blu_audio_url: ''
+  blu_video_url: ''
+  bluth_google_status: ''
+  bluth_twitter_status: ''
+  bluth_facebook_status: ''
+  bluth_post_layout: right_side
+  bluth_custom_thumbnail: a:2:{s:11:"gallery_src";s:0:"";s:10:"gallery_id";s:0:"";}
+  _edit_last: '1'
+  _thumbnail_id: '977'
+author:
+  login: admin
+  email: wach.piotrek@gmail.com
+  display_name: Piotr Wach
+  first_name: Piotr
+  last_name: Wach
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>While working on cross platform C++ library, I have found that this code crashes if compiled with Xcode 5:</p>
+<p>[syntax type="c++"]<br />
+#include &lt;iostream&gt;<br />
+#include &lt;functional&gt;</p>
+<p>int main(int argc, const char * argv[])<br />
+{<br />
+    std::function&lt;void(int)&gt; function = [](int)<br />
+    {<br />
+    };<br />
+    auto binding = std::bind(function, 10);</p>
+<p>    std::function&lt;void()&gt; jobFunctor = binding; // crashes here with EXC_BAD_ACCESS</p>
+<p>    return 0;<br />
+}<br />
+[/syntax]</p>
+<p>When converting the result of the bind to <code>jobFunctor</code> there is an infinite stack recursion in a <code>std::function</code> constructor.</p>
+<p>clang version:<br />
+[syntax type="html|php|js|css"]<br />
+LO50F-04-198BX:$ clang++ --version<br />
+Apple LLVM version 5.0 (clang-500.2.79) (based on LLVM 3.3svn)<br />
+Target: x86_64-apple-darwin12.5.0<br />
+Thread model: posix<br />
+[/syntax]</p>
+<p>Turns out there is official bug report about it: <a href="http://llvm.org/bugs/show_bug.cgi?id=18282">http://llvm.org/bugs/show_bug.cgi?id=18282</a></p>
+<p>Above example works fine in Xcode 5.1.</p>

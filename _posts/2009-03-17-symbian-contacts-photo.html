@@ -1,0 +1,36 @@
+---
+layout: post
+title: 'Symbian: Contact''s Photo? ;)'
+date: 2009-03-17 11:25:03.000000000 +01:00
+categories:
+- Blog
+tags:
+- contact
+- phonebook
+- photo
+- Symbian
+- tcb
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  wpb_post_views_count: '235'
+author:
+  login: admin
+  email: wach.piotrek@gmail.com
+  display_name: Piotr Wach
+  first_name: Piotr
+  last_name: Wach
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p style="text-align: left;"><a href="http://blog.mobiledev.pl/wp-content/uploads/2009/03/call_screen.jpg"><img class="size-full wp-image-152 alignright" title="call_screen" src="assets/call_screen.jpg" alt="call_screen" width="168" height="224" /></a>Skończyłem pierwszą wersję aplikacji do wyświetlania dużych zdjęć, screen obok. Czy ktoś ma pomysł na jakąś fajną nazwę? ;-) Używam jej już 3 dni i na razie spisuje się bez zarzutu.  Trzeba natomiast poprawić wygląd, zbliżyć bardziej to reszty aplikacji zainstalowanych w telefonie.</p>
+<p style="text-align: left;">Powiedziałbym, że jest przyjazna dla użytkownika, ale obawiam się, że znajdzie się kilka osób które nie przełkną kilku jej zachowań. Z powodu braku odpowiednich certyfikatów, np:</p>
+<ul>
+<li>dodawanie zdjęcia odbywa się przez wejście do książki kontaktowej i dodanie miniaturki do kontaktu(super, aplikacja integruje się juz z istniejącym oprogramowaniem), jednak chwile później wyskakuje jeszcze raz okienko z wyborem zdjęcia. Dzieje się tak ponieważ , program jest w stanie złapać zdarzenie o zmienia zdjęcia, ale nie jest w stanie się dowiedzieć skąd ono pochodzi(nie da się wyciągnąć ścieżki do pliku). Rozwiązanie tego problemu polega na monitorowaniu systemu plików i patrzeniu który plik został otwarty, gdy ustawiano miniaturkę, do tego jednak wymagane jest TCB, Symbian Platinum Partner, niepubliczne API oraz plugin do systemu plików ;)</li>
+<li>po zainstalowaniu, jeśli nasze kontakty miały ustawione miniaturki, to nie staną się one automatycznie duże(problem jak ten powyżej)</li>
+</ul>
+<p>Oprócz tego wszystko działa pięknie. Ustawiamy, zdjęcie i na tym nasze zmartwienia się kończą. Podczas dzwonienia dostajemy na ekranie ładne duże zdjęcie :)</p>
+<p style="text-align: left;">Może macie jakieś propozycje co można zrobić, żeby usprawnić ten program? Liczę na was :) Tymczasem szykujcie się na notkę o odgrywania muzyki i dostępnych API pod symbianem.</p>
+<p style="text-align: left;">Pozdrawiam :-)</p>

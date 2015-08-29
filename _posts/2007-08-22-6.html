@@ -1,0 +1,50 @@
+---
+layout: post
+title: Cienie i oświetlenie
+date: 2007-08-22 18:25:00.000000000 +01:00
+categories: []
+tags:
+- c++
+- cień
+- directx
+- Grafika
+- oświetlenie
+- Programowanie grafiki
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  blogger_blog: wachu-dev.blogspot.com
+  blogger_author: Piotr Wachhttp://www.blogger.com/profile/10690088603061072643noreply@blogger.com
+  blogger_permalink: "/2006/08/ostatnio-troche-czasu-sped_115627058132443703.html"
+  wpb_post_views_count: '352'
+author:
+  login: admin
+  email: wach.piotrek@gmail.com
+  display_name: Piotr Wach
+  first_name: Piotr
+  last_name: Wach
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>Ostatnio trochę czasu spędziłem nad tworzeniem oświetlenia do mojego silnika i chciałbym dzisiaj zaprezentować moje przemyślenia na ten temat. Założenia jakie sobie postawiłem były dość proste: światła punktowe w dowolnym kolorze, oświetlające tylko te obiekty które są pod nimi i pozostawiające nie oświetlone te obiekty które są "wyższe od światła", do tego wszystkiego chciałem zrobić cienie. "Wyższe od świateł" jest umowne bo mój silnik jest przeznaczony dla gier 2d z widokiem z góry, wiec tak naprawdę nie ma sposobu na określenie wysokości obiektów.</p>
+<p><a href="http://photos1.blogger.com/blogger/3974/3632/1600/light.png" onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}"><img style="margin: 0pt 10px 10px 0pt; float: left; cursor: pointer;" src="assets/light.png" border="0" alt="" /></a>Pierwszym problem jaki napotkałem było jak zrobić żeby obszar gdzie nie ma światła był zaciemniony? Zrobiłem to tak ze najpierw renderuje wszystkie obiekty normalnie, później renderuje światła do tekstury. Robię to w ten sposób ze podmieniam tylko backbuffer natomiast z-buffer pozostawiam bez zmian. Przed renderowaniem świateł czyszczę cały ekran na jakiś określony kolor który przyjmuje za brak oświetlenia.<br />
+Pozostawiając z-buffer wypełniony wartościami Z obiektów mam pewności ze będą oświetlone tylko te obiekty które są pod światłem, a obiekty nad światłem pozostaną nie oświetlone.<br />
+Oto stany mieszania jakich używam (DirectX 9):</p>
+<p style="text-align: left;"><span style="font-style: italic;font-family:courier new;">engine-&gt;setRenderState(D3DRS_SRCBLEND,  D3DBLEND_ONE);</span><br />
+<span style="font-style: italic;font-family:courier new;">engine-&gt;setRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);</span></p>
+<p>Użyłem, D3DBLEND_ONE ponieważ w rzeczywistości miejsca oświetlane przez dwa światła są bardziej oświetlone niż te oświetlone tylko jednym światłem.</p>
+<p>Po wyrenderowaniu wszystkich świateł, wyświetlam teksturę do której renderowałem na całym ekranie. Z mieszaniem kolorów:</p>
+<p style="text-align: left;"><span style="font-style: italic;font-family:courier new;">engine-&gt;setRenderState(D3DRS_SRCBLEND,   D3DBLEND_ZERO);</span> <span style="font-style: italic;font-family:courier new;">engine-&gt;setRenderState(D3DRS_DESTBLEND, D3DBLEND_SRCCOLOR);<br />
+</span><br />
+Dzieki temu powstaje odpowiedni efekt oświetlenia.</p>
+<p>Kolejnym punktem jaki chciałem zrealizować to rzucanie cieni. W obecnej wersji cienie nie są rzucane przez mesh, a przez obiekt collidera (z tego względu ze jako jedyny ma wyróżnione krawędzie).</p>
+<p>Na tym screenie widać poprawnie wyświetlony cień:<a href="http://photos1.blogger.com/blogger/3974/3632/1600/cien2.png" onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}"><img style="margin: 0pt 10px 10px 0pt; float: left; cursor: pointer;" src="assets/cien2.png" border="0" alt="" /></a></p>
+<p>Obiekt z dużą czerwona kropka jest wyższy od pozostałych i jak widać poprawnie rzuca na nie cień. Pozostałe obiekty są na tej samej wysokości i nie rzucają na siebie cieni.</p>
+<p>Rzucanie cieni odbywa się w ten sposób, ze bierzemy obiekt i światło. Znajdujemy wszystkie krawędzie dla których iloczyn skalarny wektora z pozycji światła do środka krawędzi i normalnej dla tej krawędzi jest &gt; 0. Na podstawie tych krawędzi dodajemy dodatkowe trójkąty przedstawiające rzucany cień. Długość cienia jest wprost proporcjonalna do odległości od źródła światła. W kilku artykułach na sieci widziałem, ze występuje problem gdy źródło światła zawiera się w obiekcie. U mnie jest to rozwiązane przez określanie długości cienia oraz założenia ze światło jest zawsze nad obiektem.</p>
+<p>Kolejnym problemem jaki trzeba rozwiązać przy rzucaniu cieni jest obszar pozbawiony światła bardzo rzadko jest w stu procentach czarny (może być np. poranek lub wieczór) wiec jeśli obiekt będzie na granicy zasięgu światła będzie rzucał cień ale sam cień będzie już poza zasięgiem i będzie tworzył dziwny efekt przyciemniania obszaru gdzie nie ma światła. Moim rozwiązaniem jest wprowadzenie przezroczystość cienia w zależności od odległości od źródła światła. Jeśli cień jest na granicy działania światła to jest całkowicie przezroczysty. Oprócz tego wprowadziłem brak przezroczystości cienia najbliżej obiektu i prawie całkowita przezroczystość w obszarze najbardziej oddalonym od obiektu.</p>
+<p>Ostatecznie otrzymałem taki ładny efekt:</p>
+<div style="text-align: left;"><a href="http://photos1.blogger.com/blogger/3974/3632/1600/efekt_koncowy.png" onblur="try {parent.deselectBloggerImageGracefully();} catch(e) {}"><img style="margin: 0pt 10px 10px 0pt; float: left; cursor: pointer;" src="assets/efekt_koncowy.png" border="0" alt="" /></a></p>
+<p>Na srodku widac co sie dzieje gdy swiatlo jest idealnie nad obiektem.</p>
+<p>To na tyle dzisiaj. Pozdrawiam i zapraszam za jakiś czas. Teraz zajmuje sie texturowaniem terenu.</p></div></p>

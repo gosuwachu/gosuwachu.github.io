@@ -1,0 +1,63 @@
+---
+layout: post
+title: 'iOS: UITableView controller'
+date: 2014-01-12 21:00:49.000000000 +00:00
+categories:
+- Blog
+tags:
+- design
+- iOS
+- patterns
+- tableview
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  blu_video_url: ''
+  blu_audio_url: ''
+  blu_link_url: ''
+  blu_quote_text: ''
+  blu_quote_author: ''
+  blu_quote_src: ''
+  blu_gallery: a:1:{i:0;a:2:{s:11:"gallery_src";s:0:"";s:10:"gallery_id";s:0:"";}}
+  wpb_post_views_count: '3623'
+  bluth_google_status: ''
+  bluth_custom_thumbnail: a:2:{s:11:"gallery_src";s:0:"";s:10:"gallery_id";s:0:"";}
+  bluth_post_layout: single
+  bluth_facebook_status: ''
+  bluth_twitter_status: ''
+author:
+  login: admin
+  email: wach.piotrek@gmail.com
+  display_name: Piotr Wach
+  first_name: Piotr
+  last_name: Wach
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>UITableView can cause containing it view controller to grow significantly by implementing it's delegates UITableViewDataSource and UITableViewDelegate. UITableView controller is a solution that we come up with recently, as we were modernizing our code base to make it more modular, extensible and easier to maintain.</p>
+<p><!--more-->There are several problems when view controller implements UITableView's delegates directly:</p>
+<ul>
+<li>view controller grows by couple of hundred lines (depending how complex are your views)</li>
+<li>UITableView and it's content is not reusable in other parts of the app</li>
+<li>difficult to modify, if you want to add sections or rows that are not part of your model, but rather part of presentation layer (for example, if you want to show featured articles in the additional section or last row should shows "loading..." when app is loading more elements for that list)</li>
+<li>if model is not compatible with UITableView (like for example hierarchy of objects that you cannot map directly to UITableViewDataSource methods) you can end up mixing view controller's code with logic that transforms your model to something that can be displayed as a list</li>
+<li>not unit testable</li>
+</ul>
+<p>Instead we can implement something that I will call UITableView controller, that moves implementation of delegates to new class, and separates different responsibilities of displaying a list. Diagram below illustrates how it works:</p>
+<p style="text-align: center;"><a class="lightbox" href="/wp-content/uploads/2014/01/UITableView-contoller-TableController1.png"><img class="aligncenter  wp-image-986" alt="UITableView contoller - TableController" src="assets/UITableView-contoller-TableController1.png" width="1264" height="832" /></a></p>
+<p>TableController implements UITableViewDelegate and UITableViewDataSource, and delegates creating views for cells and sections to ITableViewCellFacotry and ITableViewSectionFactory,  it also reads data from ITableViewModel and ITableViewSectionModel to supply UITableView with information about number of rows and sections.</p>
+<p>This implementation is simple and works great. In my case we had several different lists that we had to display on the screen, each list was backed by different model, but they all used the same cells to display the data. We also had cases when we have to display extra cell at the end of the section or create a whole new section that does not exist in your model, but is part of your presentation. In cases like that you can build layers of ITableViewModel, where each layer performs one transformation, for example:</p>
+<p><a class="lightbox" href="/wp-content/uploads/2014/01/UITableView-contoller-TableViewModel-transformation.png"><img class="aligncenter size-full wp-image-987" alt="UITableView contoller - TableViewModel transformation" src="assets/UITableView-contoller-TableViewModel-transformation.png" width="1280" height="260" /></a></p>
+<p>[syntax type="html|php|js|css"]<br />
+BasicTableViewModel* basicModel = [[BasicTableViewModel alloc] initWithModel:model];</p>
+<p>// notice that order in which we perform transformations make a difference:<br />
+// 1. load more in each section + additional section for featured content without load more<br />
+// 2. additional section for featured content + load more in each section<br />
+LoadMoreTableViewModel* loadMoreModel = [[LoadMoreTableViewModel alloc] initWithTableViewModel:basicModel ];<br />
+FeaturedTableViewModel* featuredModel = [[FeaturedTableViewModel alloc] initWithTableViewModel:loadMoreModel];</p>
+<p>TableController *tableController = [[TableController alloc] init];<br />
+tableController.model = featuredModel;<br />
+[/syntax]</p>
+<p>&nbsp;</p>

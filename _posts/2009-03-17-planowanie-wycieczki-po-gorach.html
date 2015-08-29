@@ -1,0 +1,39 @@
+---
+layout: post
+title: Planowanie wycieczki po górach
+date: 2009-03-17 10:53:36.000000000 +01:00
+categories: []
+tags:
+- Algorytmy
+- google earth
+- heightmap
+- nasa
+- Programowanie grafiki
+- srtm
+- studia
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+  wpb_post_views_count: '306'
+author:
+  login: admin
+  email: wach.piotrek@gmail.com
+  display_name: Piotr Wach
+  first_name: Piotr
+  last_name: Wach
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p><a href="http://blog.mobiledev.pl/wp-content/uploads/2009/03/google_earth.jpg"><img class="alignright size-medium wp-image-148" title="google_earth" src="assets/google_earth-300x235.jpg" alt="google_earth" width="300" height="235" /></a>Przyszedł czas na podsumowanie odstatnich dwóch tygodni. Zapisałem się na dodatkowy przedmiot na studiach. Śmieszna historia bo nie jestem jakoś specjalnie gorliwy w tych sprawach ;) Przedmiot nosi nazwę "Wybrane zagadnienia optymalizacji dyskretnej" i traktuje o różnych algorytmach. Trafiłem tam za sprawą moich kolegów, którzy dostali ciekawy projekt "Planowanie wycieczki po górach". Zadaniem jest wyznaczenie najbardziej optymalnej ścieżki, w terenie górskim. Mamy daną mapę wysokości (ang. heightmap) i za pomocą któregoś algorytmu wyszukiwania najkrótszej ścieżki mamy rozwiązać problem znalezienia optymalnej ścieżki z punktu A do puktu B. Optymalnej to znaczy takiej która, np. nie będzie wymagała wspinania się po pionowych ścianach, a bardziej ogólniej będzie to trasa dla której iloczyn długości trasy i poziomu trudności będzie jak najmniejszy.</p>
+<p>Tak problem został sformułowany przez prowadzącego, ale projekt zainteresował mnie na tyle, że postanowiłem przyłączyć się do kolegów i rozszerzyć to o coś więcej. Planujemy pobierać rzeczywiste mapy wysokości wybranych miejsc na ziemi oraz napisać wizualizację takiej heightmapy z naniesionymi rzeczywistymi zdjęciami terenu. Oprócz tego planuję jeszcze możliwość prezentowania takiej trasy w Google Earth.</p>
+<p>Standardowo mamy skorzystać z algorytmu Dijkstry, jednak ponieważ jest to za mało jak na trzy osobowy zespół zrobimy również implementacje któregoś z algorytmów heurystycznych.</p>
+<p>Poniżej pierwsze screeny z pracy nad projektem:</p>
+<p style="text-align: center;"><a href="http://blog.mobiledev.pl/wp-content/uploads/2009/03/wielki_kanion.jpg"><img class="size-medium wp-image-147 aligncenter" title="wielki_kanion" src="assets/wielki_kanion-300x277.jpg" alt="wielki_kanion" width="300" height="277" /><br />
+</a>Mapa wysokości dla Wielkiego Kanionu (tutaj też będziemy szukać optymalnych ścieżek :-))</p>
+<p style="text-align: center;"><a href="http://blog.mobiledev.pl/wp-content/uploads/2009/03/terragen.jpg"><img class="size-medium wp-image-149 aligncenter" title="terragen" src="assets/terragen-300x163.jpg" alt="terragen" width="300" height="163" /></a></p>
+<p style="text-align: center;">Wizualizacja terenu</p>
+<p style="text-align: left;">Jako ciekawostkę wspomnę tylko, że istnieją również mapy wysokości dla marsa i księżyca (planujecie jakąś wycieczkę?) :) Można je znaleźć tutaj: <a href="http://www2.jpl.nasa.gov/srtm/">http://www2.jpl.nasa.gov/srtm/</a></p>
+<p style="text-align: left;">
+<p style="text-align: center;"></p>

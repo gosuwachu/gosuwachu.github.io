@@ -1,0 +1,57 @@
+---
+layout: post
+title: CocoaLumberjack
+date: 2012-01-21 01:21:47.000000000 +00:00
+categories:
+- Blog
+tags:
+- iOS
+status: publish
+type: post
+published: true
+meta:
+  _layout: inherit
+  bluth_custom_thumbnail: a:2:{s:11:"gallery_src";s:0:"";s:10:"gallery_id";s:0:"";}
+  bluth_post_layout: right_side
+  bluth_facebook_status: ''
+  bluth_twitter_status: ''
+  bluth_google_status: ''
+  blu_video_url: ''
+  blu_audio_url: ''
+  blu_link_url: ''
+  blu_quote_text: ''
+  blu_quote_author: ''
+  blu_quote_src: ''
+  blu_gallery: a:1:{i:0;a:2:{s:11:"gallery_src";s:0:"";s:10:"gallery_id";s:0:"";}}
+  _edit_last: '1'
+  wpb_post_views_count: '486'
+author:
+  login: admin
+  email: wach.piotrek@gmail.com
+  display_name: Piotr Wach
+  first_name: Piotr
+  last_name: Wach
+excerpt: !ruby/object:Hpricot::Doc
+  options: {}
+---
+<p>I had the opportunity to integrate and work with CocoaLumberjack in my latest project. It is very nice logging library, with few useful features that makes it worth using:<a class="lightbox" href="/wp-content/uploads/2012/01/images.jpg"><img class="alignright size-full wp-image-557" alt="images" src="assets/images.jpg" width="225" height="225" /></a></p>
+<ul>
+<li>multiple outputs, you can direct your logs to be printed in the XCode console, system console or whatever other place you want by implementing one basic protocol (that's actually what we did to have <a title="Apphance" href="http://www.apphance.com/" target="_blank">apphance</a> logging in production builds only)</li>
+<li>ability to define log level: error, warning, info, debug, verbose. It is even possible to define logging level, not only for the entire applications, but also for selected files in your project</li>
+<li>it is faster than NSLog in most cases</li>
+</ul>
+<div style="background: white; overflow: auto; width: auto; color: black; border: solid gray; border-width: .1em; padding: .2em .6em;">
+<pre style="margin: 0; line-height: 125%;"><span style="color: #408080; font-style: italic;">// Add custom logging outputs:</span>
+[DDLog <span style="color: #a0a000;">addLogger:</span>[DDASLLogger sharedInstance]];
+[DDLog <span style="color: #a0a000;">addLogger:</span>[DDTTYLogger sharedInstance]];
+
+<span style="color: #408080; font-style: italic;">// Convert from this:</span>
+NSLog(<span style="color: #ba2121;">@"Broken sprocket detected!"</span>);
+NSLog(<span style="color: #ba2121;">@"User selected file:%@ withSize:%u"</span>, filePath, fileSize);
+
+<span style="color: #408080; font-style: italic;">// To this:</span>
+DDLogError(<span style="color: #ba2121;">@"Broken sprocket detected!"</span>);
+DDLogVerbose(<span style="color: #ba2121;">@"User selected file:%@ withSize:%u"</span>, filePath, fileSize);</pre>
+</div>
+<p>&nbsp;</p>
+<p>Library definitely worth recommending. Check it's repository on GitHub for more info: <a href="https://github.com/robbiehanson/CocoaLumberjack">https://github.com/robbiehanson/CocoaLumberjack</a></p>
