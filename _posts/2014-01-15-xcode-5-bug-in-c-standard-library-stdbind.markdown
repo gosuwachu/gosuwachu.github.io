@@ -2,8 +2,7 @@
 layout: post
 title: "Bug in C++ standard library: std::bind"
 date: 2014-01-15 21:43:26
-categories: blog
-tags: bug c++ xcode
+comments: true
 ---
 While working on cross platform C++ library, I have found that this code crashes if compiled with Xcode 5:
 
