@@ -8,7 +8,7 @@ relative_permalinks: true
 title:               Piotr Wach
 tagline:             'software developer'
 description:         'First man on the moon and Chief Navigator on Titanic.'
-url:                 http://gosuwachu.github.io
+url:                 http://gosuwachu.gitlab.io
 baseurl:             ''
 paginate:            5
 
