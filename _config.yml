@@ -1,12 +1,24 @@
-# Site settings
-title: Pior Wach
-email: wach.piotrek@gmail.com
-description: >
-  First man on the moon and Chief Navigator on Titanic.
-baseurl: "" # the subpath of your site, e.g. /blog/
-url: "http://gosuwachu.github.io"
+# Permalinks
+#
+# Use of `relative_permalinks` ensures post links from the index work properly.
+permalink:           pretty
+relative_permalinks: true
+
+# Setup
+title:               Piotr Wach
+tagline:             'software developer'
+description:         'First man on the moon and Chief Navigator on Titanic.'
+url:                 http://gosuwachu.github.io
+baseurl:             ''
+paginate:            5
+
+# About/contact
+author:
+  name:              Piotr Wach
+  url:               https://twitter.com/piotrwach
+  email:             wach.piotrek@gmail.com
 twitter_username: piotrwach
-github_username:  gosuwachu
+github_username: gosuwachu
 
 # Build settings
 markdown: kramdown
