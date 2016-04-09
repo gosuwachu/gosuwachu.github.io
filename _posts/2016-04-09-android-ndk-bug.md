@@ -25,7 +25,7 @@ int main() {
 }
 {% endhighlight %}
 
-{% highlight make %}
+{% highlight makefile %}
 ## jni/Android.mk
 LOCAL_PATH := $(call my-dir)
 

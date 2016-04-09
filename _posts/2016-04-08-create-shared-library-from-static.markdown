@@ -9,7 +9,7 @@ Let's assume you want to create one shared library from two static libraries. He
 
 In your Android.mk
 
-{% highlight make %}
+{% highlight makefile %}
 include $(CLEAR_VARS)
 LOCAL_MODULE := lib1
 LOCAL_SRC_FILES := lib1.cpp
