@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Create shared library from static library - Android NDK"
+title: "Android NDK: Create shared library from a static library"
 date: 2016-04-08 15:15:20 
 ---
 
@@ -19,7 +19,7 @@ LOCAL_MODULE := lib2
 LOCAL_SRC_FILES := lib2.cpp
 include $(BUILD_STATIC_LIBRARY)
 
-# this will create shared library from above static libraries
+# this shared library will have all symbols from two above libraries
 include $(CLEAR_VARS)
 LOCAL_MODULE := lib_shared
 LOCAL_SRC_FILES := empty.cpp
