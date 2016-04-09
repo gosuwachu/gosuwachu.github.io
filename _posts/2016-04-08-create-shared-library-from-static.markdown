@@ -2,6 +2,7 @@
 layout: post
 title: "Android NDK: Create shared library from a static library"
 date: 2016-04-08 15:15:20 
+comments: true
 ---
 
 Let's assume you want to create one shared library from two static libraries. Here is how to do it:

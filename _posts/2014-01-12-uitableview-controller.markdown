@@ -2,6 +2,7 @@
 layout: post
 title: 'UITableView controller'
 date: 2014-01-12 21:00:49
+comments: true
 ---
 `UITableView` can cause containing it view controller to grow significantly by implementing it's delegates `UITableViewDataSource` and `UITableViewDelegate`. `UITableView` controller is a solution that we come up with recently, as we were modernizing our code base to make it more modular, extensible and easier to maintain.
 There are several problems when view controller implements `UITableView`'s delegates directly:
