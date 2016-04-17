@@ -1,2 +1,0 @@
-# gosuwachu.github.io
-Blog
